@@ -3,8 +3,7 @@ package me.quadraboy.commander;
 import me.quadraboy.commander.annotations.Command;
 import me.quadraboy.commander.annotations.Executor;
 import me.quadraboy.commander.annotations.Suggester;
-import me.quadraboy.commander.structure.ExecuteStructure;
-import me.quadraboy.commander.structure.SuggestionStructure;
+import me.quadraboy.commander.structure.Structure;
 import me.quadraboy.commander.structure.handler.arguments.Argument;
 import me.quadraboy.commander.structure.handler.Suggestion;
 import net.kyori.adventure.text.Component;
@@ -49,7 +48,7 @@ public class CommandRegistry {
                 final Component formattedUsage = miniMessage.deserialize(getUsage());
 
                 final Argument argument = new Argument(args);
-                final ExecuteStructure executeStructure = new ExecuteStructure(sender, argument);
+                final Structure executeStructure = new Structure(sender, argument);
 
                 if(allowPlayer || allowConsole || allowBoth) {
                     if(args != null) {
@@ -70,8 +69,6 @@ public class CommandRegistry {
                         }
                         return true;
                     }
-                } else {
-                    executeStructure.getNotAllowedAction().run();
                 }
                 return false;
             }
@@ -79,7 +76,7 @@ public class CommandRegistry {
             @Override
             public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
                 final Suggestion suggestion = new Suggestion(args);
-                final SuggestionStructure suggestionStructure = new SuggestionStructure(sender, suggestion);
+                final Structure suggestionStructure = new Structure(sender, suggestion);
 
                 suggesterMethod.ifPresent(method -> {
                     try {
