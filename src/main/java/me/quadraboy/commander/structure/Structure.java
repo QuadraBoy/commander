@@ -6,11 +6,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class Structure {
+public class Structure<T extends StringHandler> {
     private final CommandSender commandSender;
-    private final StringHandler handler;
+    private final T handler;
 
-    public Structure(@NotNull final CommandSender commandSender, @NotNull StringHandler handler) {
+    public Structure(@NotNull final CommandSender commandSender, @NotNull T handler) {
         this.commandSender = commandSender;
         this.handler = handler;
     }
@@ -23,7 +23,7 @@ public class Structure {
         return (Player) this.commandSender;
     }
 
-    public StringHandler getHandler() {
+    public T getHandler() {
         return this.handler;
     }
 }

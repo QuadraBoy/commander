@@ -87,13 +87,13 @@ public class TestCommand {
     // The name of the methods don't matter, all that matters is the 2 annotations.
 
     @Executor(preventEmptyArgument = true)
-    public Command.Status onTest(final ExecuteStructure structure) {
+    public Command.Status onTest(final Structure structure) {
         structure.getArgument().create("hello", 0, () -> sender.sendMessage(MiniMessage.miniMessage().deserialize("<rainbow>Hello <arg>!", Placeholder.unparsed("arg", structure.getArgument().getString(1)))));
         return Command.Status.SUCCESS;
     }
     
     @Suggester
-    public void onSuggest(final SuggestionStructure structure) {
+    public void onSuggest(final Structure structure) {
         // This method is invoked by commander every time Bukkit requests a tab completion list
         // Or, to put it more simply, every time the player types a character in command.
         structure.getSuggestion().create(0, "hello");

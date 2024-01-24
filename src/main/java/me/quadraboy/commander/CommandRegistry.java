@@ -48,7 +48,7 @@ public class CommandRegistry {
                 final Component formattedUsage = miniMessage.deserialize(getUsage());
 
                 final Argument argument = new Argument(args);
-                final Structure executeStructure = new Structure(sender, argument);
+                final Structure<Argument> structure = new Structure<>(sender, argument);
 
                 if(allowPlayer || allowConsole || allowBoth) {
                     if(args != null) {
@@ -60,7 +60,7 @@ public class CommandRegistry {
 
                         try {
 
-                            final Command.Status status = (Command.Status) executorMethod.invoke(commandObject, executeStructure);
+                            final Command.Status status = (Command.Status) executorMethod.invoke(commandObject, structure);
 
                             if(status == Command.Status.FAILED) sender.sendMessage(formattedUsage);
 
@@ -76,11 +76,11 @@ public class CommandRegistry {
             @Override
             public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
                 final Suggestion suggestion = new Suggestion(args);
-                final Structure suggestionStructure = new Structure(sender, suggestion);
+                final Structure<Suggestion> structure = new Structure<>(sender, suggestion);
 
                 suggesterMethod.ifPresent(method -> {
                     try {
-                        method.invoke(commandObject, suggestionStructure);
+                        method.invoke(commandObject, structure);
 
                         if(method.getAnnotation(Suggester.class).sorted()) Collections.sort(suggestion.getCompletions());
                     } catch (Exception e) {
